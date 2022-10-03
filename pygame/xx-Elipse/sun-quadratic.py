@@ -1,16 +1,13 @@
 import pygame
-
 # -- Global Constants
 
 # -- Colours
 BLACK = (0,0,0)
+RED = (255,0,0)
 WHITE = (255,255,255)
 BLUE = (50,50,255)
 YELLOW = (255,255,0)
-RED = (255,0,0)
-colours = (WHITE, BLUE, YELLOW, RED)
-colour_choice = 0
-frame_count = 0
+
 # -- Initialise PyGame
 pygame.init()
 
@@ -20,13 +17,30 @@ clock = pygame.time.Clock()
 
 
 # -- Blank Screen
-size = (1200,800)
+size = (640,480)
 screen = pygame.display.set_mode(size)
 
 # -- Title of new window/screen
 pygame.display.set_caption("My First Flipbook")
 
 game_over = False
+
+# Sun starting position
+circle_x_pos = -40
+circle_y_pos = 100
+
+# coefficient's for quadratic equation of sun movement
+##a =  0.000976563
+##b = -0.625
+##c =  150
+a=-0.000488281
+b=0.3125
+c=100
+
+
+
+
+
 
 ### -- Game Loop
 while not game_over:
@@ -38,24 +52,19 @@ while not game_over:
     #Next event
             
     # -- Game logic goes after this comment
-    pos = pygame.mouse.get_pos()
-    if True in pygame.mouse.get_pressed() and frame_count > 30:
-        colour_choice = (colour_choice + 1) % 4
-        frame_count = 0
 
-    frame_count = (frame_count + 1)% 3000
-    mouse_x = pos[0]
-    mouse_y = pos[1]
-    
-    # -- Screen background is BLACK
+
+    circle_x_pos = circle_x_pos + 1
+    if circle_x_pos > 680:
+        circle_x_pos = -40
+    #circle_y_pos = -1 * int(a * circle_x_pos**2 + b * circle_x_pos - c)
+        circle_y_pos = -1 * int(((-1 * sun_x**2) // 2048) + ((5 * sun_x) // 16) - 100)        
+        # -- Screen background is BLACK
     screen.fill (BLACK)
 
     # -- Draw here
-
-    # Make the mouse pointer appear in the middle of the square...
-    pygame.draw.rect(screen, colours[colour_choice], (mouse_x, mouse_y, 25, 25))
-
-
+    pygame.draw.rect(screen, BLUE, (220,165,200,150))
+    pygame.draw.circle(screen, YELLOW, (circle_x_pos,circle_y_pos),40,0)
     # -- flip display to reveal new position of objects
     pygame.display.flip()
 
